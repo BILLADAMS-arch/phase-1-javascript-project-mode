@@ -4,41 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartBudget</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header>
         <h1>SmartBudget</h1>
     </header>
     <main>
-    <h1>SmartBudget</h1>
-    <p>Track your expenses and get AI budgeting tips!</p>
-    <body>
-        <h2>Add Expense</h2>
-        <label for="expense-category">Category:</label>
-        <select id="expense-category">
-            <option value="groceries">Groceries</option>
-            <option value="transport">Transport</option>
-            <option value="entertainment">Entertainment</option>
-            <option value="shopping">Shopping</option>
-            <option value="bills">Bills & Utilities</option>
-        </select>
+        <p>Track your expenses and get AI budgeting tips!</p>
 
-    <input type="number" id="expense-amount" placeholder="Enter amount">
-    <button id="add-expense">Add Expense</button>
-    </body>
-</section>
+        <section id="add-expense">
+            <h2>Add Expense</h2>
+            <label for="expense-category">Category:</label>
+            <select id="expense-category">
+                <option value="groceries">Groceries</option>
+                <option value="transport">Transport</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="shopping">Shopping</option>
+                <option value="bills">Bills & Utilities</option>
+            </select>
+            <input type="number" id="expense-amount" placeholder="Enter amount">
+            <button id="add-expense">Add Expense</button>
+        </section>
 
-<section id="expense-list">
-    <h2>Expense List</h2>
-    <ul id="expenses"></ul>
-</section>
+        <section id="expense-list">
+            <h2>Expense List</h2>
+            <ul id="expenses"></ul>
+        </section>
 
-<section id="ai-budget-tips">
-    <h2>AI Budgeting Tips</h2>
-    <button id="get-ai-tip">Get AI Budgeting Tip</button>
-    <p id="ai-tip"></p>
-</section>
-</main>
-
+        <section id="ai-budget-tips">
+            <h2>AI Budgeting Tips</h2>
+            <button id="get-ai-tip">Get AI Budgeting Tip</button>
+            <p id="ai-tip"></p>
+        </section>
+    </main>
 </body>
 </html>
