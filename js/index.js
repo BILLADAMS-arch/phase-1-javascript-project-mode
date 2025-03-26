@@ -2,6 +2,9 @@ const expenseCategory = document.getElementById("expense-category");
 const expenseAmount = document.getElementById("expense-amount");
 const addExpenseButton = document.getElementById("add-expense");
 const expensesList = document.getElementById("expenses");
+const getAiTipButton = document.getElementById("get-ai-tip");
+const aiTipText = document.getElementById("ai-tip");
+
 let expenses = [];
 
 function showExpenses() {
@@ -21,6 +24,7 @@ function showExpenses() {
         expensesList.appendChild(li);
     });
 }
+
 function addExpense() {
     let category = expenseCategory.value;
     let amount = parseFloat(expenseAmount.value);
@@ -34,3 +38,31 @@ function addExpense() {
     showExpenses();
     expenseAmount.value = "";
 }
+
+function removeExpense(index) {
+    expenses.splice(index, 1);
+    showExpenses();
+}
+
+function getAiBudgetTip() {
+    const tips = [
+        "Track all your expenses daily.",
+        "Set a monthly spending limit.",
+        "Save at least 20% of your income.",
+        "Avoid impulse buying.",
+        "Use cash instead of credit cards to control spending."
+    ];
+
+    const randomIndex = Math.floor(Math.random() * tips.length);
+    aiTipText.textContent = tips[randomIndex];
+}
+
+addExpenseButton.addEventListener("click", addExpense);
+
+expenseAmount.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        addExpense();
+    }
+});
+
+getAiTipButton.addEventListener("click", getAiBudgetTip);
