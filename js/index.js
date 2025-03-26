@@ -15,7 +15,7 @@ function showExpenses() {
         li.textContent = `${expense.category}: $${expense.amount}`;
 
         let deleteButton = document.createElement("button");
-        deleteButton.textContent = "❌";
+        deleteButton.textContent = "Delete";
         deleteButton.onclick = function () {
             removeExpense(index);
         };
