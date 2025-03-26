@@ -1,12 +1,12 @@
 const expenseCategory = document.getElementById("expense-category");
 const expenseAmount = document.getElementById("expense-amount");
-const addExpenseButton = document.getElementById("add-expense");
+const addExpenseButton = document.getElementById("add-expense-btn");
 const expensesList = document.getElementById("expenses");
 const getAiTipButton = document.getElementById("get-ai-tip");
 const aiTipText = document.getElementById("ai-tip");
 
 let expenses = [];
-
+let editingExpenseId = 0;
 
 async function fetchExpenses() {
     try {
@@ -18,7 +18,6 @@ async function fetchExpenses() {
     }
 }
 
-
 function showExpenses() {
     expensesList.innerHTML = "";
 
@@ -26,46 +25,74 @@ function showExpenses() {
         let li = document.createElement("li");
         li.textContent = `${expense.category}: $${expense.amount}`;
 
+        let editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+        editButton.classList.add("edit-btn");
+        editButton.onclick = function () {
+            editExpense(expense);
+        };
+
         let deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
+        deleteButton.classList.add("delete-btn");
         deleteButton.onclick = function () {
             removeExpense(expense.id);
         };
 
+        li.appendChild(editButton);
         li.appendChild(deleteButton);
         expensesList.appendChild(li);
     });
 }
 
+function editExpense(expense) {
+    expenseCategory.value = expense.category;
+    expenseAmount.value = expense.amount;
+    addExpenseButton.textContent = "Update Expense";
+    editingExpenseId = expense.id;
+}
 
 async function addExpense() {
-    let category = expenseCategory.value;
-    let amount = parseFloat(expenseAmount.value);
+    let category = expenseCategory.value.trim();
+    let amount = parseFloat(expenseAmount.value.trim());
 
-    if (isNaN(amount) || amount <= 0) {
-        alert("Please enter a valid amount.");
+    if (!category || isNaN(amount) || amount <= 0) {
+        alert("Please enter a valid category and amount.");
         return;
     }
 
     let newExpense = { category, amount };
 
     try {
-        let response = await fetch("http://localhost:3000/expenses", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(newExpense)
-        });
+        if (editingExpenseId) {
 
-        if (response.ok) {
-            fetchExpenses();
+            newExpense.id = editingExpenseId;
+
+            let response = await fetch(`http://localhost:3000/expenses/${editingExpenseId}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newExpense)
+            });
+
+            if (response.ok) {
+                await fetchExpenses();
+                resetForm();
+            }
+        } else {
+            let response = await fetch("http://localhost:3000/expenses", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newExpense)
+            });
+
+            if (response.ok) {
+                await fetchExpenses();
+            }
         }
     } catch (error) {
-        console.error("Error adding expense:", error);
+        console.error("Error saving expense:", error);
     }
-
-    expenseAmount.value = "";
 }
-
 
 async function removeExpense(id) {
     try {
@@ -74,13 +101,12 @@ async function removeExpense(id) {
         });
 
         if (response.ok) {
-            fetchExpenses();
+            await fetchExpenses();
         }
     } catch (error) {
         console.error("Error deleting expense:", error);
     }
 }
-
 
 function getAiBudgetTip() {
     const tips = [
@@ -95,38 +121,31 @@ function getAiBudgetTip() {
     aiTipText.textContent = tips[randomIndex];
 }
 
+function resetForm() {
+    expenseCategory.value = "groceries";
+    expenseAmount.value = "";
+    addExpenseButton.textContent = "Add Expense";
+    editingExpenseId = null;
+}
 
 document.addEventListener("DOMContentLoaded", function () {
-    const selectCategory = document.getElementById("expense-category");
+    fetchExpenses();
 
+    const selectCategory = document.getElementById("expense-category");
     selectCategory.addEventListener("change", function () {
-        const selectedValue = selectCategory.value;
-        changeBackground(selectedValue);
+        changeBackground(selectCategory.value);
     });
 
     function changeBackground(category) {
         let imageUrl = "";
-
         switch (category) {
-            case "groceries":
-                imageUrl = "url('images/groceries.jpeg')";
-                break;
-            case "transport":
-                imageUrl = "url('images/transport.jpg')";
-                break;
-            case "entertainment":
-                imageUrl = "url('images/ENTERTAINMENT.jpeg')";
-                break;
-            case "shopping":
-                imageUrl = "url('images/SHOPPING.jpeg')";
-                break;
-            case "bills":
-                imageUrl = "url('images/bills.png')";
-                break;
-            default:
-                imageUrl = "url('images/default.jpg')";
+            case "groceries": imageUrl = "url('images/groceries.jpeg')"; break;
+            case "transport": imageUrl = "url('images/transport.jpg')"; break;
+            case "entertainment": imageUrl = "url('images/ENTERTAINMENT.jpeg')"; break;
+            case "shopping": imageUrl = "url('images/SHOPPING.jpeg')"; break;
+            case "bills": imageUrl = "url('images/bills.png')"; break;
+            default: imageUrl = "url('images/default.jpg')";
         }
-
         document.body.style.backgroundImage = imageUrl;
     }
 });
@@ -139,4 +158,3 @@ expenseAmount.addEventListener("keypress", function (event) {
     }
 });
 getAiTipButton.addEventListener("click", getAiBudgetTip);
-document.addEventListener("DOMContentLoaded", fetchExpenses);

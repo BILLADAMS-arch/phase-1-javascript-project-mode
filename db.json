@@ -1,3 +1,9 @@
 {
-    "expenses": []
-  }
+  "expenses": [
+    {
+      "id": "39fe",
+      "category": "groceries",
+      "amount": 100
+    }
+  ]
+}
