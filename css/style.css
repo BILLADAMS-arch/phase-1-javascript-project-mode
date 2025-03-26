@@ -43,7 +43,7 @@ input, select {
 }
 
 button {
-    background-color: #007bff;
+    background-color: blue;
     color: white;
     border: none;
     padding: 10px;
@@ -53,7 +53,7 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: blue;
 }
 
 #expense-list {
@@ -66,10 +66,15 @@ button:hover {
 }
 
 #expenses li {
-    background: #eee;
+    background: white;
     padding: 10px;
     margin-bottom: 5px;
     border-radius: 5px;
     display: flex;
     justify-content: space-between;
+}
+body {
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }

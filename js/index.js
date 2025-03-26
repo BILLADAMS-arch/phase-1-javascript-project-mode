@@ -7,17 +7,29 @@ const aiTipText = document.getElementById("ai-tip");
 
 let expenses = [];
 
+
+async function fetchExpenses() {
+    try {
+        let response = await fetch("http://localhost:3000/expenses");
+        expenses = await response.json();
+        showExpenses();
+    } catch (error) {
+        console.error("Error fetching expenses:", error);
+    }
+}
+
+
 function showExpenses() {
     expensesList.innerHTML = "";
 
-    expenses.forEach((expense, index) => {
+    expenses.forEach((expense) => {
         let li = document.createElement("li");
         li.textContent = `${expense.category}: $${expense.amount}`;
 
         let deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
         deleteButton.onclick = function () {
-            removeExpense(index);
+            removeExpense(expense.id);
         };
 
         li.appendChild(deleteButton);
@@ -25,7 +37,8 @@ function showExpenses() {
     });
 }
 
-function addExpense() {
+
+async function addExpense() {
     let category = expenseCategory.value;
     let amount = parseFloat(expenseAmount.value);
 
@@ -34,15 +47,40 @@ function addExpense() {
         return;
     }
 
-    expenses.push({ category, amount });
-    showExpenses();
+    let newExpense = { category, amount };
+
+    try {
+        let response = await fetch("http://localhost:3000/expenses", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newExpense)
+        });
+
+        if (response.ok) {
+            fetchExpenses();
+        }
+    } catch (error) {
+        console.error("Error adding expense:", error);
+    }
+
     expenseAmount.value = "";
 }
 
-function removeExpense(index) {
-    expenses.splice(index, 1);
-    showExpenses();
+
+async function removeExpense(id) {
+    try {
+        let response = await fetch(`http://localhost:3000/expenses/${id}`, {
+            method: "DELETE"
+        });
+
+        if (response.ok) {
+            fetchExpenses();
+        }
+    } catch (error) {
+        console.error("Error deleting expense:", error);
+    }
 }
+
 
 function getAiBudgetTip() {
     const tips = [
@@ -57,12 +95,48 @@ function getAiBudgetTip() {
     aiTipText.textContent = tips[randomIndex];
 }
 
-addExpenseButton.addEventListener("click", addExpense);
 
+document.addEventListener("DOMContentLoaded", function () {
+    const selectCategory = document.getElementById("expense-category");
+
+    selectCategory.addEventListener("change", function () {
+        const selectedValue = selectCategory.value;
+        changeBackground(selectedValue);
+    });
+
+    function changeBackground(category) {
+        let imageUrl = "";
+
+        switch (category) {
+            case "groceries":
+                imageUrl = "url('images/groceries.jpeg')";
+                break;
+            case "transport":
+                imageUrl = "url('images/transport.jpg')";
+                break;
+            case "entertainment":
+                imageUrl = "url('images/ENTERTAINMENT.jpeg')";
+                break;
+            case "shopping":
+                imageUrl = "url('images/SHOPPING.jpeg')";
+                break;
+            case "bills":
+                imageUrl = "url('images/bills.png')";
+                break;
+            default:
+                imageUrl = "url('images/default.jpg')";
+        }
+
+        document.body.style.backgroundImage = imageUrl;
+    }
+});
+
+
+addExpenseButton.addEventListener("click", addExpense);
 expenseAmount.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         addExpense();
     }
 });
-
 getAiTipButton.addEventListener("click", getAiBudgetTip);
+document.addEventListener("DOMContentLoaded", fetchExpenses);
