@@ -10,7 +10,7 @@ let editingExpenseId = null;
 
 async function fetchExpenses() {
     try {
-        const response = await fetch("http://localhost:3000/expenses");
+        const response = await fetch("https://phase-1-project-db-json.vercel.app/expenses");
         if (!response.ok) throw new Error("Failed to fetch expenses");
 
         expenses = await response.json();
@@ -72,8 +72,8 @@ async function addExpense() {
 
     try {
         const url = editingExpenseId
-            ? `http://localhost:3000/expenses/${editingExpenseId}`
-            : "http://localhost:3000/expenses";
+            ? `https://phase-1-project-db-json.vercel.app/expenses/${editingExpenseId}`
+            : "https://phase-1-project-db-json.vercel.app/expenses";
 
         const method = editingExpenseId ? "PUT" : "POST";
 
@@ -97,7 +97,7 @@ async function addExpense() {
 
 async function removeExpense(id) {
     try {
-        const response = await fetch(`http://localhost:3000/expenses/${id}`, {
+        const response = await fetch(`https://phase-1-project-db-json.vercel.app/expenses/${id}`, {
             method: "DELETE",
         });
 
@@ -126,7 +126,7 @@ async function getBudgetTip() {
     }
 
     try {
-        const response = await fetch("http://localhost:3000/budget_tips");
+        const response = await fetch("https://phase-1-project-db-json.vercel.app/budget_tips");
         if (!response.ok) throw new Error("Failed to fetch budget tips");
 
         const tips = await response.json();
