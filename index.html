@@ -12,20 +12,23 @@
         <h1><i class="fa-solid fa-money-bill-trend-up"></i> SmartBudget</h1>
     </header>
     <main>
-        <p>Track your expenses and get AI budgeting tips!</p>
+        <p>Track your expenses and get helpful budgeting tips!</p>
 
         <section id="add-expense-section">
             <h2><i class="fas fa-wallet"></i> Add Expense</h2>
-            <label for="expense-category">Category:</label>
-            <select id="expense-category">
-                <option value="groceries">Groceries</option>
-                <option value="transport">Transport</option>
-                <option value="entertainment">Entertainment</option>
-                <option value="shopping">Shopping</option>
-                <option value="bills">Bills & Utilities</option>
-            </select>
-            <input type="number" id="expense-amount" placeholder="Enter amount">
-            <button id="add-expense-btn">Add Expense</button>
+            <form id="expense-form">
+                <label for="expense-category">Category:</label>
+                <select id="expense-category">
+                    <option value="">Select a category</option>
+                    <option value="groceries">Groceries</option>
+                    <option value="transport">Transport</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="shopping">Shopping</option>
+                    <option value="bills">Bills & Utilities</option>
+                </select>
+                <input type="number" id="expense-amount" placeholder="Enter amount" min="1">
+                <button id="add-expense-btn" type="button">Add Expense</button>
+            </form>
         </section>
 
         <section id="expense-list">
@@ -33,10 +36,10 @@
             <ul id="expenses"></ul>
         </section>
 
-        <section id="ai-budget-tips">
-            <h2>AI Budgeting Tips</h2>
-            <button id="get-ai-tip">Get AI Budgeting Tip</button>
-            <p id="ai-tip"></p>
+        <section id="budget-tips">
+            <h2>Budgeting Tips</h2>
+            <button id="get-budget-tip">Get a Budgeting Tip</button>
+            <p id="budget-tip">Click the button to receive a budgeting tip.</p>
         </section>
     </main>
     <script src="js/index.js"></script>
