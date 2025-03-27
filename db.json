@@ -1,5 +1,11 @@
 {
-  "expenses": [],
+  "expenses": [
+    {
+      "id": "126f",
+      "category": "transport",
+      "amount": 1000
+    }
+  ],
   "budget_tips": [
     {
       "id": 1,
