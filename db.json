@@ -1,30 +1,24 @@
 {
-  "expenses": [
-    {
-      "id": "126f",
-      "category": "transport",
-      "amount": 1000
-    }
-  ],
+  "expenses": [],
   "budget_tips": [
     {
-      "id": 1,
+      "id": "1",
       "tip": "Track all your expenses daily."
     },
     {
-      "id": 2,
+      "id": "2",
       "tip": "Set a monthly spending limit."
     },
     {
-      "id": 3,
+      "id": "3",
       "tip": "Save at least 20% of your income."
     },
     {
-      "id": 4,
+      "id": "4",
       "tip": "Avoid impulse buying."
     },
     {
-      "id": 5,
+      "id": "5",
       "tip": "Use cash instead of credit cards to control spending."
     }
   ]
